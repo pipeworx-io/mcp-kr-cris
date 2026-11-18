@@ -1,0 +1,55 @@
+[
+  {
+    "name": "kr_cris_trial_search",
+    "description": "Search the Clinical Research Information Service (CRIS), the Korea Disease Control and Prevention Agency's national registry of clinical trials and clinical research (a WHO primary registry). Free-word query in Korean or English over titles, condition, intervention and sponsor, or a KCT number. Each hit gives the KCT number, Korean and English titles, recruitment status, phase, study type, condition, sponsor and funder organisation, start and end dates and the record link. 20 results per page (page, next_page); optional status filter. No hit means none in this registry, not that no such trial exists. Use kr_cris_trial_get for one full record. Example: query=\"pembrolizumab\", status=\"recruiting\".",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Words from the title, condition, drug or sponsor in Korean or English, or a KCT number."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_yet_recruiting",
+            "recruiting",
+            "active_not_recruiting",
+            "suspended",
+            "terminated",
+            "completed",
+            "withdrawn"
+          ],
+          "description": "Optional recruitment-status filter."
+        },
+        "page": {
+          "type": "number",
+          "description": "Result page, 20 per page (default 1); use next_page from the previous answer."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Trials returned from the page (1-20, default 10)."
+        }
+      },
+      "required": [
+        "query"
+      ]
+    }
+  },
+  {
+    "name": "kr_cris_trial_get",
+    "description": "Fetch one Clinical Research Information Service (CRIS, Korea) trial record by KCT number (from kr_cris_trial_search): Korean and English titles, recruitment status, phase, study type and purpose, condition, intervention, primary outcome, sponsor and funder organisation, target sample size, number of study sites listed, registration, first-enrolment, start, primary-completion and end dates, the number the trial holds in another registry (e.g. an NCT number) and the record link. Investigators' and contact persons' names, e-mail addresses and telephone numbers are not returned. An unknown number returns found false. Example: trial_id=\"KCT0000002\".",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "trial_id": {
+          "type": "string",
+          "description": "CRIS number such as KCT0000002."
+        }
+      },
+      "required": [
+        "trial_id"
+      ]
+    }
+  }
+]
